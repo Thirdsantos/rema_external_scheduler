@@ -22,11 +22,11 @@ class Users(Base):
   email = Column(String, nullable=False, unique=True)
   created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), nullable=False)
 
-class Departments(Base):
-  __tablename__ = "departments"
+class Sections(Base):
+  __tablename__ = "section"
 
   id = Column(BigInteger, primary_key=True, autoincrement=True)
-  department_name = Column(String, nullable=False, unique=True)
+  section_name = Column(String, nullable=False, unique=True)
 
 class SubmissionSchedule(Base):
   __tablename__ = "submission_schedule"
@@ -35,7 +35,7 @@ class SubmissionSchedule(Base):
   created_at = Column(TIMESTAMP(timezone=True), server_default=func.now(), nullable=False)
   transaction_id = Column(String, nullable=False)
   user_id = Column(BigInteger, nullable=False)
-  department_id = Column(BigInteger, nullable =False)
+  section_id = Column(BigInteger, nullable =False)
   submission_id = Column(String, nullable=False)
 
 class TransactionSchedule(Base):  # or whatever name you like

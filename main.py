@@ -5,9 +5,10 @@ from sqlalchemy import text, select
 from sqlalchemy.orm import Session
 
 from app.database import engine
-from app.models.models import Users, Departments
+from app.models.models import Users, Sections
 from app.schemas import SubmissionDetails
 from app.repositories.crud import UserSubmission
+
 
 app = FastAPI()
 
@@ -37,8 +38,7 @@ def get_session() -> Session:
 
 @app.get("/developer", response_class=FileResponse)
 def developer_page():
-
-  return FileResponse("frontend/author.html")
+    return FileResponse("frontend/author.html")
 
 
 @app.get("/schedule_submission", response_class=FileResponse)
@@ -52,11 +52,20 @@ def schedule_submission_page():
 @app.get("/users")
 def list_users(session: Session = Depends(get_session)):
     """
-    Example query endpoint that returns all rows from the users table.
+    Return all sections for the frontend.
+
+    The response objects expose `id` and `section_name`, which the
+    frontend will use directly.
     """
-    stmt = select(Departments)
-    result = session.execute(stmt).scalars().all()
-    return result
+    stmt = select(Sections)
+    sections = session.execute(stmt).scalars().all()
+    return [
+        {
+            "id": section.id,
+            "section_name": section.section_name,
+        }
+        for section in sections
+    ]
 
 
 @app.post("/schedule_submission")
@@ -71,3 +80,6 @@ def scheduler(
     submission = UserSubmission(session=session, data=data)
     submission.add_submission()
     return {"status": "scheduled"}
+
+
+

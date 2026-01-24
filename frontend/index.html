@@ -618,7 +618,7 @@
 
           data.forEach((dept) => {
             options.push(
-              `<option value="${String(dept.id)}">${dept.department_name}</option>`
+              `<option value="${String(dept.id)}">${dept.section_name}</option>`
             );
           });
 
@@ -640,9 +640,9 @@
 
         row.innerHTML = `
           <div class="form-field">
-            <label>Department</label>
+            <label>Section</label>
             <select class="doc-department" required>
-              <option value="">Select department…</option>
+              <option value="">Select section…</option>
               ${departmentsSelectCache.optionsHtml}
             </select>
           </div>
@@ -672,7 +672,7 @@
 
       addDocBtn.addEventListener("click", () => {
         if (!departmentsSelectCache.loaded) {
-          setStatus("Please wait for departments to load before adding documents.", "info");
+          setStatus("Please wait for sections to load before adding documents.", "info");
           return;
         }
         documentsContainer.appendChild(createDocumentRow());
